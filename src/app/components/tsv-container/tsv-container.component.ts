@@ -11,8 +11,8 @@ import { loadRemoteModule } from "@angular-architects/module-federation";
 import {
   SpatialUnit,
   SpatialUnitType,
-  TimeSeriesViewerEventConfiguration,
-  UserActionEvent,
+  TSVConfigureEvent,
+  TSVUserActionEvent,
 } from "src/app/core/TSVConfigure.event";
 
 import {
@@ -76,7 +76,7 @@ export class TsvContainerComponent implements AfterViewInit, OnDestroy {
    *  Listen for one event sent by the TSV
    */
   @HostListener(`document:${MFEEvents.TSV_UserAction}`, ["$event"])
-  userActionOnTSV(event: CustomEvent<UserActionEvent>): void {
+  userActionOnTSV(event: CustomEvent<TSVUserActionEvent>): void {
     this.events += JSON.stringify(event.detail);
   }
 
@@ -124,23 +124,24 @@ export class TsvContainerComponent implements AfterViewInit, OnDestroy {
       },
     ];
 
-    const event = new CustomEvent<TimeSeriesViewerEventConfiguration>(
-      MFEEvents.TSV_Configure,
-      {
-        detail: {
-          spatialUnits: spatialUnits,
-          culture: "en-US",
-          token: token,
-          remoteUrl: this.remoteEntryUrl,
-          yearsOfHistory: 10,
-          timeframe: {
-            start: startDate,
-            end: endDate,
-          },
-          graphConfigurations: undefined,
+    const event = new CustomEvent<TSVConfigureEvent>(MFEEvents.TSV_Configure, {
+      detail: {
+        spatialUnits: spatialUnits,
+        culture: "en-US",
+        token: token,
+        remoteUrl: this.remoteEntryUrl,
+        yearsOfHistory: 10,
+        timeframe: {
+          start: startDate,
+          end: endDate,
         },
-      }
-    );
+        gddCustom: {
+          baseTemperature: 0,
+          maxTemperature: 30,
+        },
+        graphDataTimeRange: 30,
+      },
+    });
     document.dispatchEvent(event);
   }
 }

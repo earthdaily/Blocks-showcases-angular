@@ -1,12 +1,16 @@
 /** Contract from TSV MFE */
-export interface TimeSeriesViewerEventConfiguration {
+export interface TSVConfigureEvent {
   remoteUrl?: string;
   token: string;
   spatialUnits: SpatialUnit[];
   yearsOfHistory: number;
   timeframe: Timeframe;
   culture: string;
-  graphConfigurations?: GraphConfigurationForEvent[];
+  graphConfigurations?: TSVGraphConfiguration[];
+  selectedLegends?: string[];
+
+  gddCustom?: GddCustomDegrees;
+  graphDataTimeRange?: number;
 }
 
 export interface SpatialUnit {
@@ -32,13 +36,18 @@ export enum SpatialUnitType {
   Amu = "Amu",
 }
 
-export interface GraphConfigurationForEvent {
+export interface TSVGraphConfiguration {
   analytic: string;
   spatialUnitType: string;
   graphType: string;
 }
 
-export interface UserActionEvent {
-  graphConfigurations: GraphConfigurationForEvent[];
+export interface TSVUserActionEvent {
+  graphConfigurations: TSVGraphConfiguration[];
   timeframe: Timeframe;
+}
+
+export interface GddCustomDegrees {
+  baseTemperature: number;
+  maxTemperature: number;
 }
