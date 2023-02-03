@@ -52,9 +52,9 @@ export class TsvContainerComponent implements AfterViewInit, OnDestroy {
     if (this.seasonField) {
       //Load remote module dynamicaly
       this.timeSeriesViewerModule = await loadRemoteModule({
-        remoteName: "mFETimeSeriesViewer",
+        type: "module",
         exposedModule: "./FederatedModule",
-        remoteEntry: this.remoteEntryUrl + "remoteEntry.js",
+        remoteEntry: this.remoteEntryUrl + "remoteEntry.mjs",
       });
 
       //Mount the MFE in the DOM
